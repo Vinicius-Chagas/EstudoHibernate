@@ -1,19 +1,36 @@
 package org.example;
 
+import dao.ProdutoDao;
+import modelo.Produto;
+import util.JPAUtil;
+
+import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaDelete;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.CriteriaUpdate;
+import javax.persistence.metamodel.Metamodel;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
+
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
     public static void main(String[] args) {
-        // Press Alt+Enter with your caret at the highlighted text to see how
-        // IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        Produto celular = new Produto();
+        celular.setNome("Redmi 10");
+        celular.setDescricao("Bão de mais");
+        celular.setPreco(new BigDecimal("2000"));
 
-        // Press Shift+F10 or click the green arrow button in the gutter to run the code.
-        for (int i = 1; i <= 5; i++) {
+        EntityManager em = JPAUtil.getEntityManager();
 
-            // Press Shift+F9 to start debugging your code. We have set one breakpoint
-            // for you, but you can always add more by pressing Ctrl+F8.
-            System.out.println("i = " + i);
-        }
+        ProdutoDao pd = new ProdutoDao(em);
+
+        em.getTransaction().begin();
+        pd.cadastrar(celular);
+        em.getTransaction().commit();
+        em.close();
+
     }
 }
