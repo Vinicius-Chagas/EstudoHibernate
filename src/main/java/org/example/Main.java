@@ -1,36 +1,31 @@
 package org.example;
 
+import dao.CategoriaDao;
 import dao.ProdutoDao;
+import modelo.Categoria;
 import modelo.Produto;
 import util.JPAUtil;
 
 import javax.persistence.*;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaDelete;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.CriteriaUpdate;
-import javax.persistence.metamodel.Metamodel;
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
 
-// Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
-// then press Enter. You can now see whitespace characters in your code.
 public class Main {
     public static void main(String[] args) {
-        Produto celular = new Produto();
-        celular.setNome("Redmi 10");
-        celular.setDescricao("Bão de mais");
-        celular.setPreco(new BigDecimal("2000"));
+
+        Categoria celulares = new Categoria("Celulares");
+        Produto celular = new Produto("Redmi 10","Bão de mais",new BigDecimal("2000"), celulares);
 
         EntityManager em = JPAUtil.getEntityManager();
 
         ProdutoDao pd = new ProdutoDao(em);
+        CategoriaDao cd = new CategoriaDao(em);
 
         em.getTransaction().begin();
+        cd.cadastrar(celulares);
         pd.cadastrar(celular);
         em.getTransaction().commit();
         em.close();
+
 
     }
 }
