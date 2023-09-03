@@ -8,6 +8,7 @@ import util.JPAUtil;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
@@ -19,13 +20,19 @@ public class Main {
 
         ProdutoDao pd = new ProdutoDao(em);
         CategoriaDao cd = new CategoriaDao(em);
-
+        /*
         em.getTransaction().begin();
         cd.cadastrar(celulares);
         pd.cadastrar(celular);
         em.getTransaction().commit();
+        em.getTransaction().begin();
+        celular = pd.atualizar(celular);
+        celular.setDescricao("aaaaaa");
+        em.getTransaction().commit();
         em.close();
-
+*/
+        List<BigDecimal> p = pd.buscarPrecoPorNome("Celulares");
+        p.forEach(System.out::println);
 
     }
 }
