@@ -1,8 +1,10 @@
 package org.example;
 
 import dao.CategoriaDao;
+import dao.PedidoDao;
 import dao.ProdutoDao;
 import modelo.Categoria;
+import modelo.Pedido;
 import modelo.Produto;
 import util.JPAUtil;
 
@@ -30,9 +32,14 @@ public class Main {
         celular.setDescricao("aaaaaa");
         em.getTransaction().commit();
         em.close();
-*/
+
         List<BigDecimal> p = pd.buscarPrecoPorNome("Celulares");
         p.forEach(System.out::println);
+        */
+        PedidoDao pedidoDao = new PedidoDao(em);
+        Pedido pedido = pedidoDao.getPedidoByID(1L);
+        em.close();
+        System.out.println(pedido.getCliente().getNome());
 
     }
 }
