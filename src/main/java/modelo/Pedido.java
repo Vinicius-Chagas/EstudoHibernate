@@ -3,6 +3,7 @@ package modelo;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -13,17 +14,25 @@ public class Pedido {
     private long id;
     private BigDecimal valorTotal;
     private LocalDate data = LocalDate.now();
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Cliente cliente;
-    @ManyToMany
-    @JoinTable(name="itensPedidos")
-    private List<Produto> produtos;
+    @OneToMany(mappedBy = "pedido",cascade = CascadeType.ALL)
+    private List<ItensPedido> itens = new ArrayList<>();
+
 
     public Pedido() {
     }
 
     public Pedido(Cliente cliente) {
         this.cliente = cliente;
+        this.valorTotal = BigDecimal.ZERO;
+    }
+
+    //Guardar o pedido inteiro ou apenas o ID?
+    public void adicionarItem(ItensPedido item){
+        item.setPedido_id(this);
+        this.itens.add(item);
+        this.valorTotal = this.valorTotal.add(item.getValor());
     }
 
     public long getId() {
@@ -50,11 +59,19 @@ public class Pedido {
         this.data = data;
     }
 
-    public Cliente getClientes() {
+    public Cliente getCliente() {
         return cliente;
     }
 
-    public void setClientes(Cliente cliente) {
+    public void setCliente(Cliente cliente) {
         this.cliente = cliente;
+    }
+
+    public List<ItensPedido> getItens() {
+        return itens;
+    }
+
+    public void setItens(List<ItensPedido> itens) {
+        this.itens = itens;
     }
 }
