@@ -1,11 +1,14 @@
 package modelo;
 
+import net.bytebuddy.dynamic.loading.InjectionClassLoader;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "produtos")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Produto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -39,7 +39,7 @@ public class Main {
         PedidoDao pedidoDao = new PedidoDao(em);
         Pedido pedido = pedidoDao.getPedidoByID(1L);
         em.close();
-        System.out.println(pedido.getCliente().getNome());
+        System.out.println(pedido.getCliente().getDadosPessoais().getNome());
 
     }
 }
